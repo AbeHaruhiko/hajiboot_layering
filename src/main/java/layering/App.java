@@ -1,8 +1,5 @@
 package layering;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
 import layering.domain.Customer;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +8,6 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
@@ -50,22 +46,9 @@ public class App implements CommandLineRunner {
 		// System.out.println("result = " + result);
 
 		String sql = "select id, first_name, last_name from customers where id = :id";
-		SqlParameterSource param = new MapSqlParameterSource()
-				.addValue("id", 1);
+		SqlParameterSource param = new MapSqlParameterSource().addValue("id", 1);
 		Customer result = jdbcTemplate.queryForObject(sql, param,
-				new RowMapper<Customer>() {
-
-					@Override
-					public Customer mapRow(ResultSet rs, int rowNum)
-							throws SQLException {
-
-						return new Customer(rs.getInt("id"), rs
-								.getString("first_name"), rs
-								.getString("last_name"));
-
-					}
-
-				});
+				(rs, rowNum) -> new Customer(rs.getInt("id"), rs.getString("first_name"), rs.getString("last_name")));
 		System.out.println("result = " + result);
 	}
 }
