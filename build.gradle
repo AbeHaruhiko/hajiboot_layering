@@ -35,6 +35,8 @@ dependencies {
     compile("com.h2database:h2")
     
     compile("org.projectlombok:lombok:1.16.2")
+    
+    compile("org.lazyluke:log4jdbc-remix:0.2.7")
 }
 
 eclipse {
