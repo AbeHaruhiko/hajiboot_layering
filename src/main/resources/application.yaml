@@ -1,0 +1,2 @@
+# sqlファイルで日本語を使うための設定
+spring.datasource.sqlScriptEncoding: UTF-8
